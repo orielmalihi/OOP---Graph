@@ -1,5 +1,9 @@
 package dataStructure;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+
 import utils.Point3D;
 
 public class Vertex implements node_data {
@@ -8,6 +12,7 @@ public class Vertex implements node_data {
 	private double weight = 0;
 	private String info = "";
 	private Point3D location;
+	private ArrayList<Edge> neighbors = new ArrayList<Edge>();
 	
 	
 	public Vertex(double x, double y) {
@@ -23,6 +28,39 @@ public class Vertex implements node_data {
 	public Vertex(Point3D p) {
 		// TODO Auto-generated constructor stub
 		location = new Point3D(p);
+	}
+	
+	public void addNeighbor(Edge e) {
+		if(!neighbors.contains(e))
+			neighbors.add(e);
+	}
+	
+	public void deleteNeighbor(Edge e) {
+		if(neighbors.contains(e))
+			neighbors.remove(e);
+	}
+	
+	public Collection<edge_data> getNeighbors(){
+		Collection<edge_data> c = new ArrayList<edge_data>();
+		for(int i = 0; i<neighbors.size(); i++) {
+			c.add(neighbors.get(i));
+		}
+		return c;
+		
+		
+	}
+	
+	public void clearNeighbors() {
+		neighbors.clear();
+	}
+	
+	public boolean equals(Object ob) {
+		if(ob instanceof Vertex) {
+			Vertex v = (Vertex)ob;
+			return v.getKey()==id;
+		}
+		else
+			return false;
 	}
 	
 	@Override

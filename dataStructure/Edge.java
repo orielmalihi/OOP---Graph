@@ -1,19 +1,24 @@
 package dataStructure;
 
 public class Edge implements edge_data {
-	private int src, des, tag; 
+	private int src, dest, tag; 
 	private double weight = 0;
 	private String info = "";
 	
 	public Edge(int src_id, int des_id) {
 		src = src_id;
-		des = des_id;
+		dest = des_id;
+	}
+	public Edge(int src_id, int dest_id, double w) {
+		src = src_id;
+		dest = dest_id;
+		weight = w;
 	}
 	
 	public boolean equals(Object ob) {
 		if(ob instanceof Edge) {
 			Edge e = (Edge)ob;
-			return (src==e.src)&&(des==e.des);
+			return (src==e.src)&&(dest==e.dest);
 		}
 		else
 			return false;
@@ -28,7 +33,7 @@ public class Edge implements edge_data {
 	@Override
 	public int getDest() {
 		// TODO Auto-generated method stub
-		return des;
+		return dest;
 	}
 
 	@Override
@@ -69,7 +74,7 @@ public class Edge implements edge_data {
 	}
 	
 	public String toString() {
-		return "("+src+","+des+")";
+		return "("+src+","+dest+")";
 	}
 
 }

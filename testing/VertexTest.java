@@ -14,7 +14,27 @@ class VertexTest {
 	Vertex v1 = new Vertex(3, 4);
 	Vertex v2 = new Vertex(1, -5, 20);
 	Vertex v3 = new Vertex(new Point3D(7,8,9));
-
+	
+	@Test
+	void testEquals() {
+		fail("not yet");
+	}
+	
+	@Test
+	void testAddNeighbors() {
+		fail("not yet");
+	}
+	
+	@Test
+	void testDeleteNeighbors() {
+		fail("not yet");
+	}
+	
+	@Test
+	void testGetNeighbors() {
+		fail("not yet");
+	}
+	
 
 	@Test
 	void testGetKey() {
