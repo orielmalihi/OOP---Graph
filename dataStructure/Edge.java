@@ -16,9 +16,9 @@ public class Edge implements edge_data {
 	}
 	
 	public boolean equals(Object ob) {
-		if(ob instanceof Edge) {
-			Edge e = (Edge)ob;
-			return (src==e.src)&&(dest==e.dest);
+		if(ob instanceof edge_data) {
+			edge_data e = (edge_data)ob;
+			return (src==e.getSrc())&&(dest==e.getDest());
 		}
 		else
 			return false;
