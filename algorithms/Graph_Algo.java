@@ -59,8 +59,9 @@ public class Graph_Algo implements graph_algorithms{
 			while(itr2.hasNext()) {
 				node_data n2 = itr2.next();
 				double d = shortestPathDist(n1.getKey(), n2.getKey());
-				if(d<0)
+				if(d<0) {
 					return false;
+				}
 			}
 		}
 		return true;
@@ -106,6 +107,7 @@ public class Graph_Algo implements graph_algorithms{
 				notVisited.add(n);
 			}
 			while(!notVisited.isEmpty()) {
+	//			System.out.println("src:"+src+", dest: "+dest+" pq: "+notVisited);
 				node_data n = notVisited.poll();
 				if(n.getKey()==dest && !n.getInfo().equals("")) {
 					ans.add(n);
@@ -126,8 +128,10 @@ public class Graph_Algo implements graph_algorithms{
 						if(d.getWeight()>(n.getWeight() + edge.getWeight())) {
 							d.setWeight(n.getWeight() + edge.getWeight());
 							d.setInfo(""+n.getKey());
-						}
-					}
+							notVisited.remove(d);
+							notVisited.add(d);
+						} 
+					}	
 				}
 				n.setTag(1);
 			}
@@ -136,12 +140,39 @@ public class Graph_Algo implements graph_algorithms{
 			e.printStackTrace();
 		}
 		return null;
-	} 
+	}
+
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<node_data> left = new ArrayList<node_data>();
+		ArrayList<node_data> ans = new ArrayList<node_data>();
+		if(!this.isConnected()) {
+			System.out.println("not con");
+			return null;
+		}
+		else {
+			Iterator<Integer> itr = targets.iterator();
+			while(itr.hasNext()) {
+				int id = itr.next();
+				if(g.getNode(id)==null) {
+					System.out.println(g.toString());
+					System.out.println("here id was: "+id);
+					return null;
+				}
+				left.add(g.getNode(id));
+			}
+			for(int i = 0; i<left.size()-1; i++) {
+				ArrayList<node_data> temp = (ArrayList<node_data>) shortestPath(left.get(i).getKey(), left.get(i+1).getKey());
+				System.out.println("temp: "+temp);
+				for(int j =0; j<temp.size()-1; j++) {
+					if(!ans.contains(temp.get(i)))
+						ans.add(temp.get(i));
+				}
+			}
+		}
+		return ans;
 	}
 
 	@Override
@@ -149,13 +180,16 @@ public class Graph_Algo implements graph_algorithms{
 		// TODO Auto-generated method stub
 		return g.copy();
 	}
-	
+
 	public boolean equals(graph g) {
 		return this.g.equals(g);
 	}
-	
+
 	public String toString() {
 		return g.toString();
 	}
-
 }
+
+
+
+

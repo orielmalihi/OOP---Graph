@@ -74,7 +74,7 @@ public class Edge implements edge_data {
 	}
 	
 	public String toString() {
-		return "("+src+","+dest+")";
+		return "("+src+","+dest+")"+"w:"+weight;
 	}
 
 }

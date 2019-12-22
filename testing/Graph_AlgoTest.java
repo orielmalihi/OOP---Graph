@@ -26,7 +26,7 @@ class Graph_AlgoTest {
 			new Vertex(4,2),// g = v[6]
 			new Vertex(6,1),// h = v[7]
 			new Vertex(3,4),// i = v[8]
-			};
+	};
 	Edge[] e = {
 			new Edge(v[0].getKey(), v[1].getKey(), 1),
 			new Edge(v[0].getKey(), v[5].getKey(), 2),
@@ -43,6 +43,22 @@ class Graph_AlgoTest {
 			new Edge(v[3].getKey(), v[4].getKey(), 5)};
 	Graph_Algo ga = new Graph_Algo();
 	DGraph g = new DGraph();
+	DGraph connected = new DGraph();
+
+	Vertex[] vc = {
+			new Vertex(0,1),// a = v[0]
+			new Vertex(1,1),// b = v[1]
+			new Vertex(1,0),// c = v[2]
+			new Vertex(0,0),// d = v[3]
+
+	};
+	Edge[] ec = {
+			new Edge(vc[0].getKey(), vc[1].getKey(), 1),
+			new Edge(vc[1].getKey(), vc[2].getKey(), 2),
+			new Edge(vc[2].getKey(), vc[3].getKey(), 3),
+			new Edge(vc[3].getKey(), vc[0].getKey(), 9),
+			new Edge(vc[0].getKey(), vc[2].getKey(), 2)};
+
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -52,6 +68,11 @@ class Graph_AlgoTest {
 			g.connect(e[i].getSrc(), e[i].getDest(), e[i].getWeight());
 		}
 		ga.init(g);
+		for(int i=0; i<vc.length; i++)
+			connected.addNode(vc[i]);
+		for(int i = 0; i<ec.length; i++) {
+			connected.connect(ec[i].getSrc(), ec[i].getDest(), ec[i].getWeight());
+		}
 	}
 
 	@Test
@@ -66,13 +87,18 @@ class Graph_AlgoTest {
 
 	@Test
 	void testIsConnected() {
-		boolean ans = ga.isConnected();
+		boolean expected = ga.isConnected();
 		boolean actual = false;
-		assertEquals(ans, actual);
+		assertEquals(expected, actual);
+		ga.init(connected);
+		expected = ga.isConnected();
+		actual = true;
+		assertEquals(expected, actual);
 	}
 
 	@Test
 	void testShortestPathDist() {
+		ga.init(g);
 		double expected = ga.shortestPathDist(v[0].getKey(), v[4].getKey());
 		double actual = 14;
 		assertEquals(expected, actual);
@@ -92,14 +118,23 @@ class Graph_AlgoTest {
 
 	@Test
 	void testTSP() {
-		fail("Not yet implemented");
+		ArrayList<Integer> targets = new ArrayList<Integer>();
+		ga.init(connected);
+		System.out.println(ga);
+		System.out.println("is ga connected?"+ga.isConnected());
+		targets.add(vc[0].getKey());
+		targets.add(vc[1].getKey());
+		targets.add(vc[2].getKey());
+		targets.add(vc[3].getKey());
+			ArrayList<node_data> expected = (ArrayList<node_data>) ga.TSP(targets);
+			System.out.println(expected);
 	}
 
 	@Test
 	void testCopy() {
 		graph expected = ga.copy();
 		assertEquals(expected, ga);
-		
+
 	}
 
 }
