@@ -118,16 +118,28 @@ class Graph_AlgoTest {
 
 	@Test
 	void testTSP() {
-		ArrayList<Integer> targets = new ArrayList<Integer>();
+		ArrayList<Integer> targets1 = new ArrayList<Integer>();
+		ArrayList<Integer> targets2 = new ArrayList<Integer>();
 		ga.init(connected);
-		System.out.println(ga);
-		System.out.println("is ga connected?"+ga.isConnected());
-		targets.add(vc[0].getKey());
-		targets.add(vc[1].getKey());
-		targets.add(vc[2].getKey());
-		targets.add(vc[3].getKey());
-			ArrayList<node_data> expected = (ArrayList<node_data>) ga.TSP(targets);
-			System.out.println(expected);
+//		System.out.println(ga);
+//		System.out.println("is ga connected?"+ga.isConnected());
+		targets1.add(vc[0].getKey());
+		targets1.add(vc[1].getKey());
+		targets1.add(vc[2].getKey());
+		targets1.add(vc[3].getKey());
+		ArrayList<node_data> expected = (ArrayList<node_data>) ga.TSP(targets1);
+	//	System.out.println("expected1: "+expected);
+		assertEquals(expected.size(), 4);
+		ga.init(g);
+		targets2.add(v[0].getKey());
+		targets2.add(v[1].getKey());
+		targets2.add(v[2].getKey());
+		targets2.add(v[3].getKey());
+		expected = (ArrayList<node_data>) ga.TSP(targets2);
+	//	System.out.println("expected2: "+expected);
+		assertEquals(expected.size(), 5);
+		
+
 	}
 
 	@Test

@@ -107,7 +107,7 @@ public class Graph_Algo implements graph_algorithms{
 				notVisited.add(n);
 			}
 			while(!notVisited.isEmpty()) {
-	//			System.out.println("src:"+src+", dest: "+dest+" pq: "+notVisited);
+				//			System.out.println("src:"+src+", dest: "+dest+" pq: "+notVisited);
 				node_data n = notVisited.poll();
 				if(n.getKey()==dest && !n.getInfo().equals("")) {
 					ans.add(n);
@@ -148,32 +148,28 @@ public class Graph_Algo implements graph_algorithms{
 		// TODO Auto-generated method stub
 		ArrayList<node_data> left = new ArrayList<node_data>();
 		ArrayList<node_data> ans = new ArrayList<node_data>();
-		if(!this.isConnected()) {
-			System.out.println("not con");
-			return null;
-		}
-		else {
-			Iterator<Integer> itr = targets.iterator();
-			while(itr.hasNext()) {
-				int id = itr.next();
-				if(g.getNode(id)==null) {
-					System.out.println(g.toString());
-					System.out.println("here id was: "+id);
-					return null;
-				}
-				left.add(g.getNode(id));
+		Iterator<Integer> itr = targets.iterator();
+		while(itr.hasNext()) {
+			int id = itr.next();
+			if(g.getNode(id)==null) {
+				return null;
 			}
-			for(int i = 0; i<left.size()-1; i++) {
-				ArrayList<node_data> temp = (ArrayList<node_data>) shortestPath(left.get(i).getKey(), left.get(i+1).getKey());
-				System.out.println("temp: "+temp);
-				for(int j =0; j<temp.size()-1; j++) {
-					if(!ans.contains(temp.get(i)))
-						ans.add(temp.get(i));
-				}
+			left.add(g.getNode(id));
+		}
+
+		for(int i = 0; i<left.size()-1; i++) {
+			ArrayList<node_data> temp = (ArrayList<node_data>) shortestPath(left.get(i).getKey(), left.get(i+1).getKey());
+			if(temp==null) {
+				return null;
+			}
+			for(int j =0; j<temp.size(); j++) {
+				if(!ans.contains(temp.get(j)))
+					ans.add(temp.get(j));
 			}
 		}
-		return ans;
+		return ans;	
 	}
+
 
 	@Override
 	public graph copy() {
