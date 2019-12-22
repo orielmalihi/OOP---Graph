@@ -144,5 +144,14 @@ class DGraphTest {
 		g.removeNode(v[0].getKey());
 		assertEquals(firstMC+4, g.getMC());
 	}
+	
+	@Test
+	void testCopy() {
+		DGraph g2 = (DGraph) g.copy();
+//		System.out.println(g);
+//		System.out.println("******************");
+//		System.out.println(g2);
+		assertEquals(g2, g);
+	}
 
 }

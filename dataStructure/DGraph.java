@@ -15,6 +15,34 @@ public class DGraph implements graph{
 		edge_size = 0;
 	}
 
+	public boolean equals(Object ob) {
+		return this.toString().equals(ob.toString());
+	}
+
+	public graph copy() {
+		DGraph g = new DGraph();
+		Collection<node_data> v = vBank.values();
+		Iterator<node_data> itr = v.iterator();
+		while(itr.hasNext()) {
+			node_data n = itr.next();
+			g.addNode(n);
+		}
+		Collection<Hashtable<Integer,edge_data>> e1 = eBank.values();
+		Iterator<Hashtable<Integer,edge_data>> itr1 = e1.iterator();
+		while(itr1.hasNext()) {
+			Hashtable<Integer, edge_data> h = itr1.next();
+			Collection<edge_data> e2 = h.values();
+			Iterator<edge_data> itr2 = e2.iterator();
+			while(itr2.hasNext()) {
+				edge_data edge = itr2.next();
+				g.connect(edge.getSrc(), edge.getDest(), edge.getWeight());
+			}
+		}
+		g.edge_size = this.edge_size;
+		g.MC = this.MC;
+		return g;
+	}
+
 
 
 	@Override
@@ -76,7 +104,7 @@ public class DGraph implements graph{
 		MC++;
 		int minus = 0;
 		if(eBank.get(key)!=null)
-			 minus = eBank.get(key).size();
+			minus = eBank.get(key).size();
 		eBank.remove(key);
 		edge_size -= minus;
 		return vBank.remove(key);
@@ -108,4 +136,20 @@ public class DGraph implements graph{
 		return MC;
 	}
 
+	public String toString() {
+		String ans = "Vertexes: "+vBank.values()+"\nEdges: ";
+		//Edges: "+eBank.values()+"\nEdge size: "+edge_size+"\nMC: "+MC;
+		Iterator<Hashtable<Integer, edge_data>> itr = eBank.values().iterator();
+		while(itr.hasNext()) {
+			Hashtable<Integer, edge_data> h = itr.next();
+			Collection<edge_data> c = h.values();
+			if(!c.isEmpty()) {
+				ans += c;
+			}
+		}
+		ans += "\nNumber of Vertixes: "+this.nodeSize()+"\nNumber of Edges: "+edge_size+"\nMC: "+MC;
+		return ans;
+	}
 }
+
+
