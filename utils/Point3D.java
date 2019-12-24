@@ -9,10 +9,10 @@ import java.io.Serializable;
 
 public class Point3D implements Serializable
 {
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7491966003529112487L;
 	/**
      * Simple set of constants - should be defined in a different class (say class Constants).*/
     public static final double EPS1 = 0.001, EPS2 = Math.pow(EPS1,2), EPS=EPS2;

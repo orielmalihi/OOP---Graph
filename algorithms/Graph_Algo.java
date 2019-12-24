@@ -1,5 +1,12 @@
 package algorithms;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -17,7 +24,11 @@ import dataStructure.node_data;
  * @author 
  *
  */
-public class Graph_Algo implements graph_algorithms{
+public class Graph_Algo implements graph_algorithms, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5021372918641989775L;
 	private DGraph g;
 
 	public Graph_Algo() {
@@ -37,20 +48,39 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public void init(String file_name) {
-		// TODO Auto-generated method stub
-
+		try {
+			FileInputStream streamIn = new FileInputStream(file_name);
+			ObjectInputStream objectinputstream = new ObjectInputStream(streamIn);
+			Graph_Algo readCase = (Graph_Algo) objectinputstream.readObject();
+			this.g = (DGraph) readCase.copy();
+			objectinputstream.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void save(String file_name) {
-		// TODO Auto-generated method stub
-
+		ObjectOutputStream oos;
+		try {
+			FileOutputStream fout = new FileOutputStream(file_name, false);
+			oos = new ObjectOutputStream(fout);
+			oos.writeObject(this);
+			oos.close();
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public boolean isConnected() {
 		// TODO Auto-generated method stub
-		Collection c1 = g.getV();
+		Collection<node_data> c1 = g.getV();
 		Iterator<node_data> itr1 = c1.iterator();
 		while(itr1.hasNext()) {
 			node_data n1 = itr1.next();
@@ -177,8 +207,8 @@ public class Graph_Algo implements graph_algorithms{
 		return g.copy();
 	}
 
-	public boolean equals(graph g) {
-		return this.g.equals(g);
+	public boolean equals(Object ob) {
+			return this.g.equals(ob);
 	}
 
 	public String toString() {

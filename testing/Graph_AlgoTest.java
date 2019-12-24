@@ -77,12 +77,16 @@ class Graph_AlgoTest {
 
 	@Test
 	void testInitString() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testSave() {
-		fail("Not yet implemented");
+		graph actual = ga.copy();
+		ga.save("src/data/graph.txt");
+		ga.init("src/data/graph.txt");
+		graph expected = ga.copy(); 
+		ga.init(connected);
+		actual = ga.copy();
+		ga.save("src/data/graph.txt");
+		ga.init("src/data/graph.txt");
+		expected = ga.copy();
+		assertEquals(expected, actual);
 	}
 
 	@Test
@@ -121,14 +125,11 @@ class Graph_AlgoTest {
 		ArrayList<Integer> targets1 = new ArrayList<Integer>();
 		ArrayList<Integer> targets2 = new ArrayList<Integer>();
 		ga.init(connected);
-//		System.out.println(ga);
-//		System.out.println("is ga connected?"+ga.isConnected());
 		targets1.add(vc[0].getKey());
 		targets1.add(vc[1].getKey());
 		targets1.add(vc[2].getKey());
 		targets1.add(vc[3].getKey());
 		ArrayList<node_data> expected = (ArrayList<node_data>) ga.TSP(targets1);
-	//	System.out.println("expected1: "+expected);
 		assertEquals(expected.size(), 4);
 		ga.init(g);
 		targets2.add(v[0].getKey());
@@ -136,17 +137,12 @@ class Graph_AlgoTest {
 		targets2.add(v[2].getKey());
 		targets2.add(v[3].getKey());
 		expected = (ArrayList<node_data>) ga.TSP(targets2);
-	//	System.out.println("expected2: "+expected);
 		assertEquals(expected.size(), 5);
-		
-
 	}
 
 	@Test
 	void testCopy() {
 		graph expected = ga.copy();
 		assertEquals(expected, ga);
-
 	}
-
 }

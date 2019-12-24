@@ -1,10 +1,15 @@
 package dataStructure;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-public class DGraph implements graph{
+public class DGraph implements graph, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7586302042198106174L;
 	private Hashtable<Integer, node_data> vBank = new Hashtable<Integer, node_data>(1000000);
 	private Hashtable<Integer,Hashtable<Integer,edge_data>> eBank = new Hashtable<Integer,Hashtable<Integer,edge_data>>(1000000);
 	private int edge_size;
