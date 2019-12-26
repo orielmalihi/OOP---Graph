@@ -73,7 +73,7 @@ public class DGraph implements graph, Serializable{
 	@Override
 	public void connect(int src, int dest, double w) {
 		// TODO Auto-generated method stub
-		if(vBank.get(src)!=null && vBank.get(dest)!=null) {
+		if(vBank.get(src)!=null && vBank.get(dest)!=null && src != dest) {
 			Edge e = new Edge(src,dest, w);
 			eBank.get(src).put(dest, e);
 			edge_size++;

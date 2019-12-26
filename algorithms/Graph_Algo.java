@@ -114,6 +114,8 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
+			if(g.getNode(src)==null || g.getNode(dest)==null)
+				return null;
 		try {
 			ArrayList<node_data> ans = new ArrayList<node_data>();
 			if(g.getNode(src).equals(g.getNode(dest))) {
@@ -143,10 +145,10 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 					ans.add(n);
 					while(!n.getInfo().equals("")) {
 						node_data newNode = g.getNode(Integer.parseInt(n.getInfo()));
-						ans.add(newNode);
+						ans.add(0, newNode);
 						n = newNode;
 					}
-					ans.sort(new Node_Comparator());
+	//				ans.sort(new Node_Comparator());
 					return ans;	
 				}
 				Collection<edge_data> outOfn = g.getE(n.getKey());
