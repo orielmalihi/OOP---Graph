@@ -1,4 +1,4 @@
-![image of directed graph](https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Directed_graph.svg/1280px-Directed_graph.svg.png)
+![image of directed graph](https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Directed_graph.svg/231px-Directed_graph.svg.png)
 ## About This Project 
 This project represents a way to build a Directed Graph,  to run algorithms on it and to see the results in an advanced GUI class.
 
