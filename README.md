@@ -22,7 +22,7 @@ The graph has a set of nodes (vertixes) and edges.
 
 
 ----------
-##Algorithms On A Graph
+## Algorithms On A Graph
  - **Is Connected**: returns  true if and only if (iff) there is a valid path from EVREY node to each other node.
  - **Shortest Path Destination**: returns the length of the shortest path between suorce node  to destination node.
  - **TSP**:  computes a relatively short path which visit each node in the targets List.
