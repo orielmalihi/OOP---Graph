@@ -14,7 +14,7 @@ The graph has a set of nodes (vertixes) and edges.
 > **Methods On A Graph:**
 
  - **Add/Remove Node**: to add/remove a node to the graph.
- - **Add/Remove Edge **: to add/remove an edge from the graph.
+ - **Add/Remove Edge**: to add/remove an edge from the graph.
  - **Copy**: to get a deep copy of the graph.
  - **Equals**:  to check if to graphs are equal.
  
