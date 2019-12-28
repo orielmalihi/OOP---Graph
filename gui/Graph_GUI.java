@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import algorithms.Graph_Algo;
 import dataStructure.DGraph;
@@ -32,6 +33,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 	private boolean shortest_path_on = false;
 	private boolean tsp = false;
 	private boolean tsp_rec = false;
+	private boolean custum_graph = false;
 	private ArrayList<node_data> targets = new ArrayList<node_data>();
 	//	LinkedList<Point3D> mPoints = new LinkedList<Point3D>();
 	//	Point3D mPivot_point = null;
@@ -72,11 +74,15 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 		MenuItem item6 = new MenuItem("TSP");
 		item6.addActionListener(this);
 
+		MenuItem item7 = new MenuItem("Nem Custum DGraph");
+		item7.addActionListener(this);
+
 
 
 		menu.add(item1);
 		menu.add(item2);
 		menu.add(item3);
+		menu.add(item7);
 		menu2.add(item4);
 		menu2.add(item5);
 		menu2.add(item6);
@@ -133,7 +139,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 		if(shortest_path_on) {
 			k.setColor(Color.BLACK);
 			k.drawString("Please click on the Source node and then click on the Destination node:", 100, 80);
-			k.drawString("The Shortest path between them is marked with green.", 100, 100);
+			k.drawString("The Shortest path between them will be marked with green,", 100, 100);
 			if(targets.size()==2) {
 				algo.init(g);
 				ArrayList<node_data> ans = (ArrayList<node_data>) algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
@@ -146,17 +152,21 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 					k.drawLine(ps.ix()-kRADIUS, ps.iy()-kRADIUS, pf.ix(), pf.iy());
 				}
 				double sum = algo.shortestPathDist(targets.get(0).getKey(), targets.get(1).getKey());
-				k.drawString("And its length is: "+String.format("%.2f", sum), 100, 120);
+				k.setColor(Color.BLACK);
+				k.drawString("The length of the shortest path between "+targets.get(0).getKey()+" to "+targets.get(1).getKey()+" is: "+String.format("%.2f", sum), 100, 120);
 				shortest_path_on = false;
 			}
 		}
-		
+
 		if(tsp) {
 			k.setColor(Color.BLACK);
-			k.drawString("Click on as many nodes as you want ,when you finish click in the blue button on the left.", 100, 80);
+			k.drawString("Click on as many nodes as you want ,when you finish click on the blue button on the left.", 100, 80);
 			k.drawString("A green path between every node you clicked will apper. (if it is possible).", 100, 100);
+			if(!targets.isEmpty()) {
+				k.drawString("So far you chose these nodes: "+targets, 100, 120);
+			}
 			k.setColor(Color.BLUE);
-			k.drawRect(60, 120, 30, 30);
+			k.drawRect(50, 130, 30, 30);
 			if(tsp_rec) {
 				k.setColor(Color.GREEN);
 				algo.init(g);
@@ -173,16 +183,23 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 					Point3D pf = f.getLocation();
 					k.drawLine(ps.ix()-kRADIUS, ps.iy()-kRADIUS, pf.ix(), pf.iy());
 				}
+				k.setColor(Color.BLACK);
 				if(ans!=null) {
 					path += ans.get(ans.size()-1).getKey();
-					k.drawString("The path is: "+path, 100, 120);
+					k.drawString("The path is: "+path, 100, 140);
 				} else {
-					k.drawString("The is no Path that goes through all the selected nodes. ", 100, 120);
+					k.drawString("There is no Path that goes through all the selected nodes. ", 100, 140);
 				}
-				
+
 				tsp_rec = false;
 				tsp = false;
 			}	
+		}
+
+		if(custum_graph) {
+			k.setColor(Color.BLACK);
+			k.drawString("Make your owm Directed Graph! ", 100, 80);
+			k.drawString("Click anywhere to deploy nodes, and click on 2 nodes to make an edge between them. ", 100, 100);
 		}
 	}
 
@@ -213,23 +230,27 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 			}
 
 		} else if(str.equals("New Random DGraph")) {
+			clear();
 			g = graphFactory();
 			repaint();
 		} else if(str.equals("Is Connected")) {
-			repaint();
+			clear();
 			is_connected_on = true;
 			algo.init(g);
 			connected = algo.isConnected();
 			repaint();
 		} else if(str.equals("Shortest Path")) {
-			repaint();
-			targets.clear();
+			clear();
 			shortest_path_on = true;
 			repaint();
 		} else if(str.equals("TSP")) {
-			repaint();
-			targets.clear();
+			clear();
 			tsp = true;
+			repaint();
+		} else if(str.equals("Nem Custum DGraph")) {
+			clear();
+			g = new DGraph();
+			custum_graph = true;
 			repaint();
 		}
 
@@ -244,7 +265,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		if(tsp && x>60 && x<90 && y>120 && y<150) {
+		if(tsp && x>50 && x<80 && y>130 && y<160) {
 			tsp_rec = true;
 			repaint();
 		}	
@@ -263,8 +284,24 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 				toChoose = n;
 			}
 		}
-		if(toChoose!=null)
+		if(custum_graph && toChoose==null) {
+			g.addNode(new Vertex(x,y));
+			targets.clear();
+		}
+		if(toChoose!=null && !targets.contains(toChoose))
 			targets.add(toChoose);
+		if(custum_graph && targets.size()==2) {
+			node_data s = targets.get(0);
+			node_data f = targets.get(1);
+			double w;
+			try {
+				w = Double.parseDouble(JOptionPane.showInputDialog("Enter weight for the edge "+s.getKey()+">"+f.getKey()+":"));
+			} catch (Exception e1) {
+				w = Math.random()*50;
+			}
+			g.connect(s.getKey(), f.getKey(), w);
+			targets.clear();
+		}
 		repaint();
 
 		System.out.println("mousePressed");
@@ -296,12 +333,22 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 
 	}
 
+	public void clear() {
+		connected = false;
+		is_connected_on = false;
+		shortest_path_on = false;
+		tsp = false;
+		tsp_rec = false;
+		custum_graph = false;
+		targets.clear();
+	}
+
 	public static graph graphFactory() {
 		DGraph gr = new DGraph();
 		Vertex[] v = new Vertex[12];
 		for(int i =0; i<v.length; i++) {
 			int rx = (int)(Math.random()*650+40);
-			int ry = (int)(Math.random()*420+150);
+			int ry = (int)(Math.random()*420+160);
 			v[i] = new Vertex(rx, ry);
 			gr.addNode(v[i]);
 		}
