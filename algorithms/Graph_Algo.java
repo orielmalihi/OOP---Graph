@@ -19,22 +19,30 @@ import dataStructure.edge_data;
 import dataStructure.graph;
 import dataStructure.node_data;
 /**
- * This empty class represents the set of graph-theory algorithms
- * which should be implemented as part of Ex2 - Do edit this class.
- * @author 
+ * This class represents a set of graph-theory algorithms.
+ * it includes:
+ * 1) init from file (Load).
+ * 2) save.
+ * 3) shortest path between two nodes in the graph.
+ * 4) tsp
+ * 5) and more..
+ * @author oriel 
  *
  */
 public class Graph_Algo implements graph_algorithms, Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -5021372918641989775L;
 	private DGraph g;
-
+	/**
+	 * constructes a new empty graph for this class.
+	 */
 	public Graph_Algo() {
 		g = new DGraph();
 	}
-
+	/**
+	 * Init this set of algorithms on the parameter - graph.
+	 * @param g
+	 */
 	@Override
 	public void init(graph g) {
 		if(g instanceof DGraph) {
@@ -45,6 +53,10 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			throw new RuntimeException("ERR: could not init Graph_Algo from: "+g);
 
 	}
+	/**
+	 * Init a graph from file
+	 * @param file_name
+	 */	
 
 	@Override
 	public void init(String file_name) {
@@ -59,6 +71,10 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			e.printStackTrace();
 		}
 	}
+	/** Saves the graph to a file.
+	 * 
+	 * @param file_name
+	 */
 
 	@Override
 	public void save(String file_name) {
@@ -76,6 +92,11 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Returns true if and only if (iff) there is a valid path from EVREY node to each
+	 * other node.
+	 * @return
+	 */
 
 	@Override
 	public boolean isConnected() {
@@ -96,6 +117,12 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		}
 		return true;
 	}
+	/**
+	 * returns the length of the shortest path between src to dest
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
@@ -111,11 +138,19 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		}
 		return sum;
 	}
+	/**
+	 * returns the the shortest path between src to dest - as an ordered List of nodes:
+	 * src--> n1-->n2-->...dest
+	 * see: https://en.wikipedia.org/wiki/Shortest_path_problem
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
-			if(g.getNode(src)==null || g.getNode(dest)==null)
-				return null;
+		if(g.getNode(src)==null || g.getNode(dest)==null)
+			return null;
 		try {
 			ArrayList<node_data> ans = new ArrayList<node_data>();
 			if(g.getNode(src).equals(g.getNode(dest))) {
@@ -148,7 +183,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 						ans.add(0, newNode);
 						n = newNode;
 					}
-	//				ans.sort(new Node_Comparator());
+					//				ans.sort(new Node_Comparator());
 					return ans;	
 				}
 				Collection<edge_data> outOfn = g.getE(n.getKey());
@@ -173,7 +208,14 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		}
 		return null;
 	}
-
+	/**
+	 * computes a relatively short path which visit each node in the targets List.
+	 * Note: this is NOT the classical traveling salesman problem, 
+	 * as you can visit a node more than once, and there is no need to return to source node - 
+	 * just a simple path going over all nodes in the list. 
+	 * @param targets
+	 * @return
+	 */
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
@@ -201,17 +243,29 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		}
 		return ans;	
 	}
-
+	/** 
+	 * Compute a deep copy of this graph.
+	 * uses the copy method of DGraph.
+	 * @return
+	 */
 
 	@Override
 	public graph copy() {
 		// TODO Auto-generated method stub
 		return g.copy();
 	}
+	/**
+	 * checks if this the graph in this class is equal to ob.
+	 * uses the equal method of DGraph.
+	 */
 
 	public boolean equals(Object ob) {
-			return this.g.equals(ob);
+		return this.g.equals(ob);
 	}
+	/**
+	 * returns a string that represents the graph in this class.
+	 * uses the toString method of DGraph.
+	 */
 
 	public String toString() {
 		return g.toString();

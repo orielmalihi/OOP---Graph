@@ -65,9 +65,11 @@ class DGraphTest {
 	void testConnect() {
 		int src = v[2].getKey();
 		int dest = v[3].getKey();
-		edge_data actual = new Edge(src, dest);
+		edge_data actual = new Edge(src, dest, 22);
 		g.connect(src, dest, 22);
 		edge_data expected = g.getEdge(src, dest);
+		System.out.println(actual);
+		System.out.println(expected);
 		assertEquals(expected, actual);
 	}
 

@@ -4,25 +4,42 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
+/**
+ * this class represents a directed graph G(V,E).
+ * the graph has sets of vertexes and edges.
+ * @author oriel
+ *
+ */
 
 public class DGraph implements graph, Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 7586302042198106174L;
 	private Hashtable<Integer, node_data> vBank = new Hashtable<Integer, node_data>(1000000);
 	private Hashtable<Integer,Hashtable<Integer,edge_data>> eBank = new Hashtable<Integer,Hashtable<Integer,edge_data>>(1000000);
 	private int edge_size;
 	private static int MC = 0;
-
+	
+	/**
+	 * constructes an epty graph.
+	 */
 	public DGraph() {
 		// TODO Auto-generated constructor stub
 		edge_size = 0;
 	}
+	/**
+	 * checks if this graph is egual to ob. 
+	 * this method uses the equals method of String
+	 * and therefore might not be accurate. but it
+	 * extremly useful for debugging purposes.
+	 */
 
 	public boolean equals(Object ob) {
 		return this.toString().equals(ob.toString());
 	}
+	/**
+	 * creates a deep copy of this graph.
+	 * @return
+	 */
 
 	public graph copy() {
 		DGraph g = new DGraph();
@@ -47,20 +64,30 @@ public class DGraph implements graph, Serializable{
 		g.MC = this.MC;
 		return g;
 	}
-
-
-
+	/**
+	 * returns the node that its id equal to the key.
+	 * if there is not a node with this id returns null.
+	 * works in O(1).
+	 */
 	@Override
 	public node_data getNode(int key) {
 		// TODO Auto-generated method stub
 		return vBank.get(key);
 	}
+	/**
+	 * gets the edge that its source is equal to src, and its destination is
+	 * equal to dest. if there is not an edge with this parameters returns null.
+	 * works in O(1).
+	 */
 
 	@Override
 	public edge_data getEdge(int src, int dest) {
 		// TODO Auto-generated method stub
 		return eBank.get(src).get(dest);
 	}
+	/**
+	 * add node to this graph in O(1).
+	 */
 
 	@Override
 	public void addNode(node_data n) {
@@ -69,6 +96,11 @@ public class DGraph implements graph, Serializable{
 		eBank.put(n.getKey(), new Hashtable<Integer, edge_data>());
 		MC++;
 	}
+	/**
+	 * adds an edge to this graph. the edge source is src
+	 * and the edge destination is dest. if thr src or dest nodes are not
+	 * in this graph it will do nothing.
+	 */
 
 	@Override
 	public void connect(int src, int dest, double w) {
@@ -81,18 +113,38 @@ public class DGraph implements graph, Serializable{
 		}
 
 	}
+	/**
+	 * This method returns a pointer (shallow copy) for the
+	 * collection representing all the nodes in the graph. 
+	 * this method runs in O(1) time.
+	 * @return Collection<node_data>
+	 */
 
 	@Override
 	public Collection<node_data> getV() {
 		// TODO Auto-generated method stub
 		return vBank.values();
 	}
+	/**
+	 * This method returns a pointer (shallow copy) for the
+	 * collection representing all the edges getting out of 
+	 * the given node (all the edges starting (source) at the given node). 
+	 * this method runs in O(1) time.
+	 * @return Collection<edge_data>
+	 */
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
 		// TODO Auto-generated method stub
 		return eBank.get(node_id).values();
 	}
+	/**
+	 * Delete the node (with the given ID) from the graph -
+	 * and removes all edges which starts or ends at this node.
+	 * This method runs in O(n), |V|=n, as all the edges should be removed.
+	 * @return the data of the removed node (null if none). 
+	 * @param key
+	 */
 
 	@Override
 	public node_data removeNode(int key) {
@@ -114,6 +166,13 @@ public class DGraph implements graph, Serializable{
 		edge_size -= minus;
 		return vBank.remove(key);
 	}
+/**
+	 * Delete the edge from the graph, 
+	 * Note: this method should run in O(1) time.
+	 * @param src
+	 * @param dest
+	 * @return the data of the removed edge (null if none).
+ */
 
 	@Override
 	public edge_data removeEdge(int src, int dest) {
@@ -122,24 +181,41 @@ public class DGraph implements graph, Serializable{
 		MC++;
 		return eBank.get(src).remove(dest);
 	}
+	/** 
+	 * return the number of edges (assume directional graph).
+	 * Note: this method should run in O(1) time.
+	 * @return
+	 */
 
 	@Override
 	public int nodeSize() {
 		// TODO Auto-generated method stub
 		return vBank.size();
 	}
+	/**
+	 * return the Mode Count - for testing changes in the graph.
+	 * @return
+	 */
 
 	@Override
 	public int edgeSize() {
 		// TODO Auto-generated method stub
 		return edge_size;
 	}
+	/**
+	 * returns the MC parameter of this graph.
+	 */
 
 	@Override
 	public int getMC() {
 		// TODO Auto-generated method stub
 		return MC;
 	}
+	/**
+	 * returns a representaion of this graph as a String.
+	 * the representayion includes its nodes, edges, number of nodes,
+	 * number of edges, and the MC parameter.
+	 */
 
 	public String toString() {
 		String ans = "Vertexes: "+vBank.values()+"\nEdges: ";

@@ -11,7 +11,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,6 +22,13 @@ import dataStructure.edge_data;
 import dataStructure.graph;
 import dataStructure.node_data;
 import utils.Point3D;
+/**
+ * this class represents a GUI for the Graph_algo class.
+ * it enables the user to build a new radom graph or to build a new custum graph
+ * and to run on the graph the algorithms from the Graph_algo class.
+ * @author oriel
+ *
+ */
 
 public class Graph_GUI extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 	private graph g;
@@ -35,11 +41,6 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 	private boolean tsp_rec = false;
 	private boolean custum_graph = false;
 	private ArrayList<node_data> targets = new ArrayList<node_data>();
-	//	LinkedList<Point3D> mPoints = new LinkedList<Point3D>();
-	//	Point3D mPivot_point = null;
-	//	boolean mDraw_pivot = false;
-	//	boolean mMoving_point = false;
-
 
 	public Graph_GUI() {
 		initGUI();
