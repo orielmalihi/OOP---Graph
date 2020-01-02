@@ -39,19 +39,26 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	public Graph_Algo() {
 		g = new DGraph();
 	}
+	
+	public Graph_Algo(graph g) {
+		try {
+			this.g = (DGraph)g;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Init this set of algorithms on the parameter - graph.
 	 * @param g
 	 */
 	@Override
 	public void init(graph g) {
-		if(g instanceof DGraph) {
+		try {
 			DGraph newG = (DGraph)g;
-			this.g = (DGraph) newG.copy();
+			this.g = newG;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		else
-			throw new RuntimeException("ERR: could not init Graph_Algo from: "+g);
-
 	}
 	/**
 	 * Init a graph from file

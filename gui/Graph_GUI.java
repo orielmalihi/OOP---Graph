@@ -45,6 +45,12 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 	public Graph_GUI() {
 		initGUI();
 	}
+	
+	public Graph_GUI(graph g) {
+		initGUI();
+		this.g = g;
+		algo.init(this.g);
+	}
 
 	private void initGUI() {
 		this.setSize(800, 600);
@@ -91,7 +97,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		g = graphFactory();
-		algo = new Graph_Algo();
+		algo = new Graph_Algo(g);
 
 	}
 
