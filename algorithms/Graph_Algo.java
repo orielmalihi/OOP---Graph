@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -125,7 +124,8 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		return true;
 	}
 	/**
-	 * returns the length of the shortest path between src to dest
+	 * returns the length of the shortest path between src to dest.
+	 * if there is no path between them it returns -1.
 	 * @param src - start node
 	 * @param dest - end (target) node
 	 * @return
@@ -149,6 +149,9 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	 * returns the the shortest path between src to dest - as an ordered List of nodes:
 	 * src--> n1-->n2-->...dest
 	 * see: https://en.wikipedia.org/wiki/Shortest_path_problem
+	 * if there is no path betweem src to dest it will return null.
+	 * if the src and dest are same node it will return a List which contains
+	 * this node.
 	 * @param src - start node
 	 * @param dest - end (target) node
 	 * @return
@@ -219,7 +222,8 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	 * computes a relatively short path which visit each node in the targets List.
 	 * Note: this is NOT the classical traveling salesman problem, 
 	 * as you can visit a node more than once, and there is no need to return to source node - 
-	 * just a simple path going over all nodes in the list. 
+	 * just a simple path going over all nodes in the list.
+	 * if there is no path that visit every node in the tergets List it will return null. 
 	 * @param targets
 	 * @return
 	 */

@@ -45,7 +45,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 	public Graph_GUI() {
 		initGUI();
 	}
-	
+
 	public Graph_GUI(graph g) {
 		initGUI();
 		this.g = g;
@@ -369,8 +369,35 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener, 
 		return gr;
 	}
 
+	public graph getGraph() {
+		return g;
+	}
+
 	public static void main(String[] args) {
 		Graph_GUI graph_gui = new Graph_GUI();
 		graph_gui.setVisible(true);
+		graph g = graph_gui.getGraph();
+		GraphChangeGUI_Thread changeListener = new GraphChangeGUI_Thread(g, graph_gui);
+		changeListener.start();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		for(int i=50; i<800; i=i+60) {
+			node_data n1 = new Vertex(i,120);
+			node_data n2 = new Vertex(i+30, 120);
+			g.addNode(n1);
+			g.addNode(n2);
+			g.connect(n1.getKey(), n2.getKey(), 1);
+			try {
+				Thread.sleep(400);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			g.removeEdge(n1.getKey(), n2.getKey());
+			g.removeNode(n1.getKey());
+			g.removeNode(n2.getKey());
+		}
 	}
 }

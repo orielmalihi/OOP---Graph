@@ -90,11 +90,12 @@ public class DGraph implements graph, Serializable{
 	 */
 
 	@Override
-	public void addNode(node_data n) {
+	public synchronized void addNode(node_data n) {
 		// TODO Auto-generated method stub
 		vBank.put(n.getKey(), n);
 		eBank.put(n.getKey(), new Hashtable<Integer, edge_data>());
 		MC++;
+		this.notifyAll();
 	}
 	/**
 	 * adds an edge to this graph. the edge source is src
@@ -103,13 +104,14 @@ public class DGraph implements graph, Serializable{
 	 */
 
 	@Override
-	public void connect(int src, int dest, double w) {
+	public synchronized void connect(int src, int dest, double w) {
 		// TODO Auto-generated method stub
 		if(vBank.get(src)!=null && vBank.get(dest)!=null && src != dest) {
 			Edge e = new Edge(src,dest, w);
 			eBank.get(src).put(dest, e);
 			edge_size++;
 			MC++;
+			this.notifyAll();
 		}
 
 	}
@@ -147,7 +149,7 @@ public class DGraph implements graph, Serializable{
 	 */
 
 	@Override
-	public node_data removeNode(int key) {
+	public synchronized node_data removeNode(int key) {
 		// TODO Auto-generated method stub
 		Collection<node_data> c =vBank.values();
 		Iterator<node_data> itr = c.iterator();
@@ -159,6 +161,7 @@ public class DGraph implements graph, Serializable{
 			}
 		}
 		MC++;
+		this.notifyAll();
 		int minus = 0;
 		if(eBank.get(key)!=null)
 			minus = eBank.get(key).size();
@@ -175,10 +178,11 @@ public class DGraph implements graph, Serializable{
  */
 
 	@Override
-	public edge_data removeEdge(int src, int dest) {
+	public synchronized edge_data removeEdge(int src, int dest) {
 		// TODO Auto-generated method stub
 		edge_size--;
 		MC++;
+		this.notifyAll();
 		return eBank.get(src).remove(dest);
 	}
 	/** 
@@ -217,7 +221,7 @@ public class DGraph implements graph, Serializable{
 	 * number of edges, and the MC parameter.
 	 */
 
-	public String toString() {
+	public synchronized String toString() {
 		String ans = "Vertexes: "+vBank.values()+"\nEdges: ";
 		//Edges: "+eBank.values()+"\nEdge size: "+edge_size+"\nMC: "+MC;
 		Iterator<Hashtable<Integer, edge_data>> itr = eBank.values().iterator();
